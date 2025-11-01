@@ -1,4 +1,7 @@
-﻿import { NextResponse } from "next/server";
+mkdir .\app\sitemap.xml -Force | Out-Null
+
+@'
+import { NextResponse } from "next/server";
 
 const BASE = "https://www.ned-swiss.ch";
 const LOCALES = ["de","en","fr"];
@@ -32,3 +35,4 @@ ${urls.join("")}
 
   return new NextResponse(xml, { headers: { "Content-Type": "application/xml" } });
 }
+'@ | Set-Content -Encoding UTF8 .\app\sitemap.xml\route.ts
