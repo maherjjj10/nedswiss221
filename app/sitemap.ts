@@ -2,9 +2,11 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const BASE = 'https://www.ned-swiss.ch';
+
+  // اللغات
   const LOCALES = ['de', 'en', 'fr'];
 
-  // صفحاتك الرئيسية
+  // الصفحات الأساسية
   const PAGES = [
     '',
     '/about',
