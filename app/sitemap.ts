@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const page of PAGES) {
-    const alternates = {
+    const alt = {
       de: `${BASE}/de${page}`,
       en: `${BASE}/en${page}`,
       fr: `${BASE}/fr${page}`,
@@ -20,14 +20,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entries.push({
         url: `${BASE}/${lang}${page}`,
         lastModified: now,
-        changeFrequency: page === "" ? "daily" : "weekly",
-        priority: page === "" ? 1 : 0.8,
-        alternates: {
-          languages: alternates,
-        },
+        alternates: { languages: alt },
       });
     }
   }
 
   return entries;
+}
+
+// Inject XHTML namespace
+export const revalidate = 0;
+
+export function generateSitemaps() {
+  return [
+    {
+      urlset: {
+        "xmlns:xhtml": "http://www.w3.org/1999/xhtml",
+      },
+    },
+  ];
 }
