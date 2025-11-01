@@ -1,30 +1,28 @@
 import { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const BASE = "https://www.ned-swiss.ch";
-  const LOCALES = ["de", "en", "fr"];
-  const PAGES = ["", "/about", "/services", "/contact", "/blogs"];
+const BASE = "https://www.ned-swiss.ch";
+const LOCALES = ["de", "en", "fr"];
+const PAGES = ["", "/about", "/services", "/contact", "/blogs"];
 
+export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
 
-  for (const page of PAGES) {
-    for (const lang of LOCALES) {
-      const url = `${BASE}/${lang}${page}`;
+  for (const path of PAGES) {
+    const alts = {
+      de: `${BASE}/de${path}`,
+      en: `${BASE}/en${path}`,
+      fr: `${BASE}/fr${path}`,
+      "x-default": `${BASE}/de${path}`,
+    };
 
+    for (const lang of LOCALES) {
       entries.push({
-        url,
+        url: `${BASE}/${lang}${path}`,
         lastModified: now,
-        changeFrequency: page === "" ? "daily" : "weekly",
-        priority: page === "" ? 1 : 0.8,
-        alternates: {
-          languages: {
-            de: `${BASE}/de${page}`,
-            en: `${BASE}/en${page}`,
-            fr: `${BASE}/fr${page}`,
-            "x-default": `${BASE}/de${page}`,
-          },
-        },
+        changeFrequency: path === "" ? "daily" : "weekly",
+        priority: path === "" ? 1 : 0.8,
+        alternates: { languages: alts },
       });
     }
   }
