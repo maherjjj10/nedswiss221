@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.ned-swiss.ch';
-  const locale = 'de'; // German locale only
-  
-  // Define all static routes
-  const routes = [
+  const BASE = 'https://www.ned-swiss.ch';
+  const LOCALES = ['de', 'en', 'fr'];
+
+  // صفحاتك الرئيسية
+  const PAGES = [
     '',
     '/about',
     '/services',
@@ -13,42 +13,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/blogs',
   ];
 
-  // Define service sub-routes
-  const serviceRoutes = [
-    '/services',
-    
-  ];
+  const entries: MetadataRoute.Sitemap = [];
 
-  // Generate sitemap entries for German (de) locale only
-  const sitemapEntries: MetadataRoute.Sitemap = [];
-
-  // Add main routes for German locale
-  routes.forEach((route) => {
-    sitemapEntries.push({
-      url: `${baseUrl}/${locale}${route}`,
-      lastModified: new Date(),
-      changeFrequency: route === '' ? 'daily' : 'weekly',
-      priority: route === '' ? 1 : 0.8,
-    });
-  });
-
-  
-
-  // Add additional important pages
-  sitemapEntries.push(
-    {
-      url: `${baseUrl}/robots.txt`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.1,
-    },
-    {
-      url: `${baseUrl}/sitemap.xml`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.1,
+  for (const lang of LOCALES) {
+    for (const page of PAGES) {
+      entries.push({
+        url: `${BASE}/${lang}${page}`,
+        lastModified: new Date(),
+        changeFrequency: page === '' ? 'daily' : 'weekly',
+        priority: page === '' ? 1 : 0.8,
+      });
     }
-  );
+  }
 
-  return sitemapEntries;
-} 
+  return entries;
+}
